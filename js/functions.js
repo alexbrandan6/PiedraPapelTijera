@@ -5,7 +5,7 @@
 
 $(document).ready(function() {
     
-    $('[id$=lblTexto]').text("Dale al botón de empezar");
+    
 
 });
 
@@ -27,15 +27,15 @@ function mostrarContricante(randomNumber){
 
     switch (randomNumber) {
         case 1:
-            $('[id$=lblTexto]').text('Piedra');
+            $('[id$=imgBot]').attr('src','img/piedra.png');
             break;
 
         case 2:
-            $('[id$=lblTexto]').text('Papel');
+            $('[id$=imgBot]').attr('src','img/papel.png');
             break;
 
         case 3:
-            $('[id$=lblTexto]').text('Tijera');
+            $('[id$=imgBot]').attr('src','img/tijera.png');
             break;
     }
     
