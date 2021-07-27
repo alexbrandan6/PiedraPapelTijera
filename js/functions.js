@@ -14,31 +14,41 @@ function startGame(){
     const randomNumber = Math.floor(Math.random() * 3) + 1;
     const selectedNumber = $('input[name=inlineRadioOptions]:checked').val();
 
-    if(selectedNumber != undefined){
-        mostrarContricante(randomNumber);
-        verificarResultado(randomNumber, selectedNumber);
-    }else{
-        $('[id$=lblResultado]').text('Seleccioná una opción');
-    }
+    if(selectedNumber != undefined) mostrarContricante(randomNumber, selectedNumber);
+    else $('[id$=lblResultado]').text('Seleccioná una opción');
 
 }
 
-function mostrarContricante(randomNumber){
-
-    switch (randomNumber) {
-        case 1:
-            $('[id$=imgBot]').attr('src','img/piedra.png');
-            break;
-
-        case 2:
-            $('[id$=imgBot]').attr('src','img/papel.png');
-            break;
-
-        case 3:
-            $('[id$=imgBot]').attr('src','img/tijera.png');
-            break;
-    }
+function mostrarContricante(randomNumber, selectedNumber){
     
+    $('[id$=imgBot]').attr('src','');
+    $('[id$=lblTexto]').attr('class', 'loader');
+
+    var awaitNumber = Math.floor(Math.random() * 5) + 1;
+    awaitNumber = awaitNumber * 1000
+
+    setTimeout(function () {
+
+        $('[id$=lblTexto]').attr('class', '');
+
+        switch (randomNumber) {
+            case 1:
+                $('[id$=imgBot]').attr('src','img/piedra.png');
+                verificarResultado(randomNumber, selectedNumber);
+                break;
+    
+            case 2:
+                $('[id$=imgBot]').attr('src','img/papel.png');
+                verificarResultado(randomNumber, selectedNumber);
+                break;
+    
+            case 3:
+                $('[id$=imgBot]').attr('src','img/tijera.png');
+                verificarResultado(randomNumber, selectedNumber);
+                break;
+        }
+    }, awaitNumber);
+
 }
 
 function verificarResultado(randomNumber, selectedNumber){
