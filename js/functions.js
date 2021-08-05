@@ -57,11 +57,14 @@ function verificarResultado(randomNumber, selectedNumber){
         case "1":
             if (randomNumber == 1) {
                 $('[id$=lblResultado]').text('Empate');
+                anotarPuntos('empate');
             } else {
                 if (randomNumber == 2) {
                     $('[id$=lblResultado]').text('Perdiste');
+                    anotarPuntos('perdio');
                 } else {
                     $('[id$=lblResultado]').text('Ganaste');
+                    anotarPuntos('gano');
                 }
             }
             break;
@@ -69,11 +72,14 @@ function verificarResultado(randomNumber, selectedNumber){
         case "2":
             if (randomNumber == 2) {
                 $('[id$=lblResultado]').text('Empate');
+                anotarPuntos('empate');
             } else {
                 if (randomNumber == 1) {
                     $('[id$=lblResultado]').text('Ganaste');
+                    anotarPuntos('gano');
                 } else {
                     $('[id$=lblResultado]').text('Perdiste');
+                    anotarPuntos('perdio');
                 }
             }
             break;
@@ -81,11 +87,14 @@ function verificarResultado(randomNumber, selectedNumber){
         case "3":
             if (randomNumber == 3) {
                 $('[id$=lblResultado]').text('Empate');
+                anotarPuntos('empate');
             } else {
                 if (randomNumber == 1) {
                     $('[id$=lblResultado]').text('Perdiste');
+                    anotarPuntos('perdio');
                 } else {
                     $('[id$=lblResultado]').text('Ganaste');
+                    anotarPuntos('gano');
                 }
             }
             break;
@@ -93,3 +102,90 @@ function verificarResultado(randomNumber, selectedNumber){
     }
 
 }
+
+function anotarPuntos(resultado){
+
+    if(resultado == 'gano'){
+        $('[id$=meWins]').text(parseInt($('[id$=meWins]').text()) + 1);
+        $('[id$=botLosses]').text(parseInt($('[id$=botLosses]').text()) + 1);
+    }else if(resultado == 'perdio'){
+        $('[id$=meLosses]').text(parseInt($('[id$=meLosses]').text()) + 1);
+        $('[id$=botWins]').text(parseInt($('[id$=botWins]').text()) + 1);
+    }else{
+        $('[id$=meDraws]').text(parseInt($('[id$=meDraws]').text()) + 1);
+        $('[id$=botDraws]').text(parseInt($('[id$=botDraws]').text()) + 1);
+    }
+
+    $('[id$=meTotal]').text(parseInt($('[id$=meTotal]').text()) + 1);
+    $('[id$=botTotal]').text(parseInt($('[id$=botTotal]').text()) + 1);
+
+}
+
+var properties = [
+	'name',
+	'wins',
+	'draws',
+	'losses',
+	'total',
+];
+
+$.each( properties, function( i, val ) {
+	
+	var orderClass = '';
+
+	$("#" + val).click(function(e){
+		e.preventDefault();
+		$('.filter__link.filter__link--active').not(this).removeClass('filter__link--active');
+  		$(this).toggleClass('filter__link--active');
+   		$('.filter__link').removeClass('asc desc');
+
+   		if(orderClass == 'desc' || orderClass == '') {
+    			$(this).addClass('asc');
+    			orderClass = 'asc';
+       	} else {
+       		$(this).addClass('desc');
+       		orderClass = 'desc';
+       	}
+
+		var parent = $(this).closest('.header__item');
+        var index = $(".header__item").index(parent);
+		var $table = $('.table-content');
+		var rows = $table.find('.table-row').get();
+		var isSelected = $(this).hasClass('filter__link--active');
+		var isNumber = $(this).hasClass('filter__link--number');
+			
+		rows.sort(function(a, b){
+
+			var x = $(a).find('.table-data').eq(index).text();
+    			var y = $(b).find('.table-data').eq(index).text();
+				
+			if(isNumber == true) {
+    					
+				if(isSelected) {
+					return x - y;
+				} else {
+					return y - x;
+				}
+
+			} else {
+			
+				if(isSelected) {		
+					if(x < y) return -1;
+					if(x > y) return 1;
+					return 0;
+				} else {
+					if(x > y) return -1;
+					if(x < y) return 1;
+					return 0;
+				}
+			}
+    		});
+
+		$.each(rows, function(index,row) {
+			$table.append(row);
+		});
+
+		return false;
+	});
+
+});
